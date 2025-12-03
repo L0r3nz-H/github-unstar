@@ -62,7 +62,7 @@ python3 unstar_old_stars.py
    - Loads the JSON data.
    - Compares the `starred_at` date against the current date minus 365 days.
    - Iterates through the old repositories and sends `DELETE` requests to the GitHub API.
-   - Includes a `0.5s` delay between requests to avoid API rate limiting.
+   - Includes a `0.5s` delay between requests to avoid API rate limiting - which can be added if necessary
 
 ## Disclaimer
 
