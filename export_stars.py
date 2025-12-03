@@ -3,6 +3,7 @@ import json
 
 # --- CONFIGURATION ---
 GITHUB_USERNAME = "your_github_username"
+# Here you can use a classic token or a personal access token
 GITHUB_TOKEN = "your_personal_access_token"
 # ---------------------
 

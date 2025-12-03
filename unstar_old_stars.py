@@ -38,7 +38,15 @@ except FileNotFoundError:
 
 # 2. Set the cutoff date
 current_date = datetime.now(timezone.utc)
-cutoff_date = current_date - timedelta(days=365) # 1 Year
+# Benutzer nach der Anzahl der Tage fragen
+try:
+    days_input = input("Number of days to unstar repositories older than (default 365): ")
+    days = int(days_input) if days_input else 365
+except ValueError:
+    print("Invalid input. Using default value of 365 days.")
+    days = 365
+
+cutoff_date = current_date - timedelta(days=days)
 
 print(f"Current Date: {current_date.strftime('%Y-%m-%d')}")
 print(f"Cutoff Date:  {cutoff_date.strftime('%Y-%m-%d')}")
@@ -62,6 +70,16 @@ if len(repos_to_delete) == 0:
 
 print(f"Found {len(repos_to_delete)} repositories older than 1 year.")
 confirm = input(f"Are you sure you want to unstar these {len(repos_to_delete)} repos? (yes/no): ")
+# Optional delay to avoid rate limits - yes or no from user 
+delay_input = input("Add delay between requests to avoid rate limits? (yes/no): ")
+delay = delay_input.lower() == "yes"
+if delay:
+    print("Delay enabled: 0.5 seconds between requests.")
+elif delay_input.lower() == "no":
+    print("Delay disabled.")
+else:
+    print("Invalid input for delay option. Proceeding without delay.")
+    delay = False
 
 if confirm.lower() == "yes":
     total = len(repos_to_delete)
@@ -77,7 +95,8 @@ if confirm.lower() == "yes":
         unstar_repository(owner, repo_name, GITHUB_TOKEN)
         
         # Sleep to avoid hitting API rate limits
-        # time.sleep(0.5)
+        if delay == True:
+            time.sleep(0.5)
         
     print("\nProcess complete.")
 else:
