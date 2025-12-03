@@ -38,7 +38,6 @@ except FileNotFoundError:
 
 # 2. Set the cutoff date
 current_date = datetime.now(timezone.utc)
-# Benutzer nach der Anzahl der Tage fragen
 try:
     days_input = input("Number of days to unstar repositories older than (default 365): ")
     days = int(days_input) if days_input else 365
@@ -70,7 +69,6 @@ if len(repos_to_delete) == 0:
 
 print(f"Found {len(repos_to_delete)} repositories older than 1 year.")
 confirm = input(f"Are you sure you want to unstar these {len(repos_to_delete)} repos? (yes/no): ")
-# Optional delay to avoid rate limits - yes or no from user 
 delay_input = input("Add delay between requests to avoid rate limits? (yes/no): ")
 delay = delay_input.lower() == "yes"
 if delay:
@@ -83,18 +81,14 @@ else:
 
 if confirm.lower() == "yes":
     total = len(repos_to_delete)
-    
-    # Enumerate gives us a counter (i) starting at 1
     for i, item in enumerate(repos_to_delete, 1):
         owner = item['repo']['owner']['login']
         repo_name = item['repo']['name']
-        
-        # Print the counter, stay on the same line
         print(f"[{i}/{total}] ", end="")
         
         unstar_repository(owner, repo_name, GITHUB_TOKEN)
         
-        # Sleep to avoid hitting API rate limits
+        # Sleep to avoid hitting API rate limits - optional
         if delay == True:
             time.sleep(0.5)
         
