@@ -21,7 +21,6 @@ def unstar_repository(owner, repo, token):
     if response.status_code == 204:
         print(f"Successfully Unstarred: {owner}/{repo}")
     else:
-        # Try to get error message
         try:
             error_msg = response.json().get('message', '')
         except:
@@ -85,7 +84,7 @@ if confirm.lower() == "yes":
         owner = item['repo']['owner']['login']
         repo_name = item['repo']['name']
         print(f"[{i}/{total}] ", end="")
-        
+
         unstar_repository(owner, repo_name, GITHUB_TOKEN)
         
         # Sleep to avoid hitting API rate limits - optional
