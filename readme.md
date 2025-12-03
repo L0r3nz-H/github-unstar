@@ -4,10 +4,15 @@ A set of Python scripts to manage your GitHub starred repositories. It allows yo
 
 Use this to declutter your profile while keeping your recent interests visible.
 
+## Disclaimer
+
+This script permanently removes starred repositories from your GitHub profile. **Always ensure `starred_with_dates.json` is generated correctly before running the deletion script.** Use at your own risk.
+
+
 ## Features
 
 - **Export Stars:** backup all your starred repositories to a JSON file, including the date you starred them.
-- **Date Filtering:** Automatically identifies repositories starred more than 365 days ago.
+- **Date Filtering:** Automatically identifies repositories starred more than your specified number of days ago.
 - **Bulk Unstar:** Removes stars via the GitHub API with a progress indicator.
 - **Safety First:** Includes confirmation prompts and backup files to prevent accidental deletion.
 
@@ -49,7 +54,7 @@ python3 export_stars.py
 *Output: `starred_with_dates.json`*
 
 ### Step 2: Unstar Old Repositories
-Run the cleaning script. It will read the JSON file, calculate which stars are older than 1 year, and ask for confirmation before deleting anything.
+Run the cleaning script. It will read the JSON file, calculate which stars are older than a specified number of days, and ask for confirmation before deleting anything.
 
 ```bash
 python3 unstar_old_stars.py
@@ -60,10 +65,6 @@ python3 unstar_old_stars.py
 1. **`export_stars.py`**: Uses the `application/vnd.github.star+json` header to retrieve the specific `starred_at` timestamp for every repository.
 2. **`unstar_old_stars.py`**: 
    - Loads the JSON data.
-   - Compares the `starred_at` date against the current date minus 365 days.
+   - Compares the `starred_at` date against the current date minus set number of days.
    - Iterates through the old repositories and sends `DELETE` requests to the GitHub API.
-   - Includes a `0.5s` delay between requests to avoid API rate limiting - which can be added if necessary
-
-## Disclaimer
-
-This script permanently removes starred repositories from your GitHub profile. **Always ensure `starred_with_dates.json` is generated correctly before running the deletion script.** Use at your own risk.
+   - Includes an optional `0.5s` delay between requests to avoid API rate limiting.
