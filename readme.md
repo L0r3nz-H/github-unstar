@@ -21,7 +21,7 @@ This script permanently removes starred repositories from your GitHub profile. *
 - Python 3.x
 - A GitHub Account
 - A **Classic** Personal Access Token (PAT)  
-   - A Fine-grained personal access tokens will work only for the export, but not for the deletion
+   - A Fine-grained personal access tokens will only work for the export, but not for the deletion
 
 ## Setup
 
